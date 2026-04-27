@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qasr Al Hosn - Where Abu Dhabi Began</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #fafafa;
+            overflow-x: hidden;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #b8860b 0%, #daa520 50%, #cd853f 100%);
+        }
+
+        .text-shadow {
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .hover-lift {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-3px);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .timeline-dot {
+            width: 24px;
+            height: 24px;
+            border: 4px solid #b8860b;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .timeline-line {
+            width: 2px;
+            background: linear-gradient(to bottom, #b8860b, #daa520);
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .accent-border {
+            border-left: 4px solid #b8860b;
+        }
+
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function QasrAlHosnWebsite() {
+            const [showQuiz, setShowQuiz] = useState(false);
+            const [revealedFacts, setRevealedFacts] = useState({});
+
+            useEffect(() => {
+                let lastScrollY = window.scrollY;
+
+                const handleScroll = () => {
+                    const currentScrollY = window.scrollY;
+                    const scrollingDown = currentScrollY > lastScrollY;
+
+                    if (scrollingDown) {
+                        const sections = document.querySelectorAll('.scroll-fade');
+                        sections.forEach(section => {
+                            const rect = section.getBoundingClientRect();
+                            const isVisible = rect.top < window.innerHeight - 100;
+
+                            if (isVisible) {
+                                section.classList.add('visible');
+                            }
+                        });
+                    }
+
+                    lastScrollY = currentScrollY;
+                };
+
+                window.addEventListener('scroll', handleScroll);
+                handleScroll();
+
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <div className="min-h-screen">
+
+                    {/* Hero Section */}
+                    <header id="intro" className="hero-gradient relative" style={{minHeight: '85vh'}}>
+                        <div className="absolute inset-0 bg-black opacity-10"></div>
+                        <div className="relative z-10 flex flex-col items-center justify-center text-white px-6" style={{minHeight: '85vh'}}>
+                            <h1 className="text-6xl md:text-8xl font-black mb-6 text-shadow text-center">
+                                Qasr Al Hosn
+                            </h1>
+                            <p className="text-2xl md:text-3xl mb-4 text-center">The birthplace of Abu Dhabi</p>
+                            <p className="text-lg md:text-xl opacity-90 max-w-2xl text-center mb-12">
+                                Built in 1761 as a watchtower, Qasr Al Hosn became the foundation of what is now the capital of the UAE
+                            </p>
+                            <button
+                                onClick={() => document.getElementById('history').scrollIntoView({ behavior: 'smooth' })}
+                                className="bg-white text-amber-800 px-10 py-4 text-lg font-bold hover:bg-gray-100 transition-all"
+                            >
+                                Explore the History
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* History Timeline */}
+                    <section id="history" className="section-padding bg-white scroll-fade">
+                        <div className="max-w-6xl mx-auto px-6">
+                            <h2 className="text-5xl font-black text-gray-900 mb-4">How Qasr Al Hosn went down</h2>
+                            <p className="text-xl text-gray-600 mb-4">250+ years of Qasr Al Hosn history in one spot. That is a lot of history for Qasr Al Hosn.</p>
+                            <p className="text-lg text-gray-500 mb-16">Started as a tower and ended up being where an entire city was born. Qasr Al Hosn is where it all started.</p>
+
+                            <div className="space-y-12">
+                                <TimelineItem
+                                    year="1761"
+                                    title="Just a Tower at First"
+                                    text="Bani Yas tribe built a watchtower at Qasr Al Hosn here because there was a freshwater well at Qasr Al Hosn. That's it.. Water meant everything in the desert so Qasr Al Hosn became a super important spot."
+                                />
+                                <TimelineItem
+                                    year="Early 1800s"
+                                    title="Al Nahyan Family Moves In"
+                                    text="They took over Qasr Al Hosn and turned it into a fort instead of just a tower at Qasr Al Hosn. After that Qasr Al Hosn became where all the big decisions and important stuff went down at Qasr Al Hosn."
+                                />
+                                <TimelineItem
+                                    year="1800s - 1930s"
+                                    title="Pearl Diving Era"
+                                    text="Pearl diving was huge for making money then at Qasr Al Hosn. Fort kept watch over everything and protected trade while the settlement kept growing at Qasr Al Hosn."
+                                />
+                                <TimelineItem
+                                    year="1950s"
+                                    title="Oil Changes Everything"
+                                    text="They found oil and boom the whole economy flipped at Qasr Al Hosn. Abu Dhabi started transforming from a coastal town into the giant modern city it is now."
+                                />
+                                <TimelineItem
+                                    year="2018"
+                                    title="Reopens as Museum"
+                                    text="Took them 11 years. They finally finished fixing up Qasr Al Hosn. Now Qasr Al Hosn is open to everyone. You can actually walk around where Qasr Al Hosn first began."
+                                />
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Architecture */}
+                    <section id="architecture" className="section-padding bg-gray-50 scroll-fade">
+                        <div className="max-w-7xl mx-auto px-6">
+                            <h2 className="text-5xl font-black text-gray-900 mb-4">Built Without Modern Tech</h2>
+                            <p className="text-xl text-gray-600 mb-4">No electricity no AC, just desert heat at Qasr Al Hosn</p>
+                            <p className="text-lg text-gray-500 mb-16">They used whatever they could find and got creative with the design of Qasr Al Hosn</p>
+
+                            <div className="grid md:grid-cols-3 gap-8 mb-16">
+                                <div className="text-center">
+                                    <div className="text-6xl mb-4">🪨</div>
+                                    <h3 className="text-2xl font-bold text-gray-900 mb-3">Coral Stone Blocks</h3>
+                                    <p className="text-gray-700">They grabbed blocks from the sea and used those at Qasr Al Hosn. Corals actually really. Stays cool which helps a lot when its scorching outside at Qasr Al Hosn.</p>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-6xl mb-4">💨</div>
+                                    <h3 className="text-2xl font-bold text-gray-900 mb-3">Wind Towers</h3>
+                                    <p className="text-gray-700">These caught the wind. Pushed it down into the rooms at Qasr Al Hosn. Like AC before electricity was even a thing at Qasr Al Hosn.</p>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-6xl mb-4">🧱</div>
+                                    <h3 className="text-2xl font-bold text-gray-900 mb-3">Really Thick Walls</h3>
+                                    <p className="text-gray-700">Walls are crazy thick so heat couldn't get through during the day at Qasr Al Hosn. At night they kept warmth in too at Qasr Al Hosn.</p>
+                                </div>
+                            </div>
+
+                            <div className="bg-white p-10 accent-border">
+                                <h3 className="text-2xl font-bold mb-4 text-gray-900">They Used What Was Around Them</h3>
+                                <p className="text-lg text-gray-700 leading-relaxed">
+                                    Everything came from Qasr Al Hosn. Coral from the Gulf waters palm wood for roofs, sand and crushed shells mixed together for mortar at Qasr Al Hosn. Smart considering each one handles the heat well. This was the 1700s at Qasr Al Hosn.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Role/Importance */}
+                    <section id="role" className="section-padding bg-white scroll-fade">
+                        <div className="max-w-6xl mx-auto px-6">
+                            <h2 className="text-5xl font-black text-gray-900 mb-4">Why Qasr Al Hosn Mattered Much</h2>
+                            <p className="text-xl text-gray-600 mb-4">Way more than just an old building at Qasr Al Hosn</p>
+                            <p className="text-lg text-gray-500 mb-16">Pretty much everything important in early Abu Dhabi went down at Qasr Al Hosn</p>
+
+                            <div className="grid md:grid-cols-2 gap-8">
+                                <div>
+                                    <h3 className="text-3xl font-bold mb-4 text-amber-800">🏛️ Where Leaders Met</h3>
+                                    <p className="text-lg text-gray-700">
+                                        Leaders met up at Qasr Al Hosn to decide stuff about trade settle arguments and plan community things at Qasr Al Hosn. First government building Abu Dhabi had basically at Qasr Al Hosn.
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3 className="text-3xl font-bold mb-4 text-amber-800">💧 Guarding the Water Supply</h3>
+                                    <p className="text-lg text-gray-700">
+                                        Built at Qasr Al Hosn because there was a freshwater underground at Qasr Al Hosn. Desert + water = survival so Qasr Al Hosn was perfect.
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3 className="text-3xl font-bold mb-4 text-amber-800">🤝 Where People Gathered</h3>
+                                    <p className="text-lg text-gray-700">
+                                        People hung out at Qasr Al Hosn for celebrations and festivals and stuff at Qasr Al Hosn. The social center where everyone met basically at Qasr Al Hosn.
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3 className="text-3xl font-bold mb-4 text-amber-800">🛡️ Protecting Trade</h3>
+                                    <p className="text-lg text-gray-700">
+                                        Fort watched over everything. Kept trade routes safe at Qasr Al Hosn. Abu Dhabi was about trading back then so protection mattered a lot at Qasr Al Hosn.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Gallery/Media */}
+                    <section id="gallery" className="section-padding scroll-fade" style={{background: 'linear-gradient(to bottom, #f9f9f9, #ffffff)'}}>
+                        <div className="max-w-7xl mx-auto px-6">
+                            <h2 className="text-5xl font-black text-gray-900 mb-4 text-center">Photos</h2>
+                            <p className="text-xl text-gray-600 mb-4 text-center">Check out the fort at Qasr Al Hosn</p>
+                            <p className="text-lg text-gray-500 mb-16 text-center">Real pictures of Qasr Al Hosn</p>
+
+                            {/* Image Gallery */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                <div className="overflow-hidden hover-lift cursor-pointer rounded-lg shadow-lg bg-white">
+                                    <img
+                                        src="main view.webp"
+                                        alt="Qasr Al Hosn Main View"
+                                        className="w-full h-80 object-cover"
+                                    />
+                                    <p className="text-center p-3 font-semibold text-gray-700">The Fort Today at Qasr Al Hosn</p>
+                                </div>
+                                <div className="overflow-hidden hover-lift cursor-pointer rounded-lg shadow-lg bg-white">
+                                    <img
+                                        src="original watchtower.webp"
+                                        alt="Original Watchtower"
+                                        className="w-full h-80 object-cover"
+                                    />
+                                    <p className="text-center p-3 font-semibold text-gray-700">The Watchtower at Qasr Al Hosn</p>
+                                </div>
+                                <div className="overflow-hidden hover-lift cursor-pointer rounded-lg shadow-lg bg-white">
+                                    <img
+                                        src="fort exterior.jpg"
+                                        alt="Fort Exterior"
+                                        className="w-full h-80 object-cover"
+                                    />
+                                    <p className="text-center p-3 font-semibold text-gray-700">Exterior View of Qasr Al Hosn</p>
+                                </div>
+                                <div className="overflow-hidden hover-lift cursor-pointer rounded-lg shadow-lg bg-white">
+                                    <img
+                                        src="inner courtyard.jpg"
+                                        alt="Inner Courtyard"
+                                        className="w-full h-80 object-cover"
+                                    />
+                                    <p className="text-center p-3 font-semibold text-gray-700">Inside the Courtyard at Qasr Al Hosn</p>
+                                </div>
+                                <div className="overflow-hidden hover-lift cursor-pointer rounded-lg shadow-lg bg-white">
+                                    <img
+                                        src="old historic qasr al hosn.jpg"
+                                        alt="Historic Qasr Al Hosn"
+                                        className="w-full h-80 object-cover"
+                                    />
+                                    <p className="text-center p-3 font-semibold text-gray-700">Historical Photo of Qasr Al Hosn</p>
+                                </div>
+                                <div className="overflow-hidden hover-lift cursor-pointer rounded-lg shadow-lg bg-white">
+                                    <img
+                                        src="fort at night.jpg"
+                                        alt="Fort at Night"
+                                        className="w-full h-80 object-cover"
+                                    />
+                                    <p className="text-center p-3 font-semibold text-gray-700">The Fort at Night at Qasr Al Hosn</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Culture */}
+                    <section id="culture" className="section-padding bg-white scroll-fade">
+                        <div className="max-w-6xl mx-auto px-6">
+                            <h2 className="text-5xl font-black text-gray-900 mb-4">Part of Emirati Identity</h2>
+                            <p className="text-xl text-gray-600 mb-4">Not some old walls at Qasr Al Hosn</p>
+                            <p className="text-lg text-gray-500 mb-16">Qasr Al Hosn keeps culture and traditions alive</p>
+
+                            <div className="grid md:grid-cols-2 gap-12">
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-3 text-gray-900">📖 Keeping Stories Alive</h3>
+                                    <p className="text-gray-700 mb-6">
+                                        Qasr Al Hosns got all these stories about life before everything got modern at Qasr Al Hosn. Pearl divers, fishermen, traders families just trying to survive at Qasr Al Hosn. Shows where we came from at Qasr Al Hosn.
+                                    </p>
+
+                                    <h3 className="text-2xl font-bold mb-3 text-gray-900">🎨 Crafts</h3>
+                                    <p className="text-gray-700">
+                                        Museums got Sadu weaving, pottery, metalwork. All the traditional stuff families passed down over time at Qasr Al Hosn.
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-3 text-gray-900">🗣️ Poetry and Storytelling</h3>
+                                    <p className="text-gray-700 mb-6">
+                                        Poetry and storytelling were big then at Qasr Al Hosn. Leaders and poets met at Qasr Al Hosn to share stories and wisdom at Qasr Al Hosn.
+                                    </p>
+
+                                    <h3 className="text-2xl font-bold mb-3 text-gray-900">🎉 Big Celebrations</h3>
+                                    <p className="text-gray-700">
+                                        Eid, weddings, festivals. Qasr Al Hosn was where it all happened at Qasr Al Hosn. Same traditions still going strong across the UAE now.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Visitor Info */}
+                    <section id="visitor" className="section-padding bg-gray-50 scroll-fade">
+                        <div className="max-w-5xl mx-auto px-6">
+                            <h2 className="text-5xl font-black text-gray-900 mb-4">Wanna Visit Qasr Al Hosn?</h2>
+                            <p className="text-xl text-gray-600 mb-4">Stuff to know before you go to Qasr Al Hosn</p>
+                            <p className="text-lg text-gray-500 mb-16">Location, hours and helpful tips for Qasr Al Hosn</p>
+
+                            <div className="grid md:grid-cols-2 gap-12">
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-6 text-gray-900">📍 Basic Info</h3>
+                                    <div className="space-y-4 text-lg">
+                                        <p><strong className="text-amber-800">Where</strong> - Downtown Abu Dhabi by the Corniche at Qasr Al Hosn</p>
+                                        <p><strong className="text-amber-800">When</strong> - Check their website for hours at Qasr Al Hosn</p>
+                                        <p><strong className="text-amber-800">Price</strong> - Entry fee applies but free for UAE nationals on some days at Qasr Al Hosn</p>
+                                    </div>
+
+                                    <h3 className="text-2xl font-bold my-6 text-gray-900">🎫 Whats Inside Qasr Al Hosn</h3>
+                                    <ul className="space-y-2 text-lg text-gray-700">
+                                        <li>• Guided tours in languages at Qasr Al Hosn</li>
+                                        <li>• Interactive stuff about Abu Dhabi history at Qasr Al Hosn</li>
+                                        <li>• Craft demonstrations at Qasr Al Hosn</li>
+                                        <li>• Shop with local handmade items at Qasr Al Hosn</li>
+                                        <li>• Café with traditional snacks at Qasr Al Hosn</li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-6 text-gray-900">💡 Good to Know</h3>
+                                    <div className="space-y-4">
+                                        <div className="p-5 bg-white border-l-4 border-amber-600">
+                                            <p className="font-bold text-amber-800 mb-1">What to Wear at Qasr Al Hosn</p>
+                                            <p className="text-gray-700">Dress modestly since its a cultural heritage site at Qasr Al Hosn</p>
+                                        </div>
+                                        <div className="p-5 bg-white border-l-4 border-amber-600">
+                                            <p className="font-bold text-amber-800 mb-1">Taking Photos at Qasr Al Hosn</p>
+                                            <p className="text-gray-700">You can take pictures in most areas so bring your camera to Qasr Al Hosn</p>
+                                        </div>
+                                        <div className="p-5 bg-white border-l-4 border-amber-600">
+                                            <p className="font-bold text-amber-800 mb-1">Best Times at Qasr Al Hosn</p>
+                                            <p className="text-gray-700">Go in the morning or late afternoon when the heat isn't as bad at Qasr Al Hosn</p>
+                                        </div>
+                                        <div className="p-5 bg-white border-l-4 border-amber-600">
+                                            <p className="font-bold text-amber-800 mb-1">Good for Families at Qasr Al Hosn</p>
+                                            <p className="text-gray-700">Works for any age and kids really like the interactive parts at Qasr Al Hosn</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Fun Facts */}
+                    <section id="facts" className="section-padding bg-white scroll-fade">
+                        <div className="max-w-7xl mx-auto px-6">
+                            <h2 className="text-5xl font-black text-gray-900 mb-4">Cool Facts</h2>
+                            <p className="text-xl text-gray-600 mb-4">Stuff you probably didn't know about Qasr Al Hosn</p>
+                            <p className="text-lg text-gray-500 mb-12">Click to reveal</p>
+
+                            <div className="grid md:grid-cols-3 gap-6 mb-12">
+                                <FactCard
+                                    icon="💧"
+                                    title="Only Water Around Qasr Al Hosn"
+                                    fact="The well was literally the only place to get drinkable water in the entire area. That's why they picked this exact spot. No water meant no settlement."
+                                    revealed={revealedFacts.f1}
+                                    onReveal={() => setRevealedFacts({...revealedFacts, f1: true})}
+                                />
+                                <FactCard
+                                    icon="👑"
+                                    title="Over 150 Years of Royals at Qasr Al Hosn"
+                                    fact="The Al Nahyan family lived inside Qasr Al Hosn until 1966. That's over 150 years of it being the leadership center."
+                                    revealed={revealedFacts.f2}
+                                    onReveal={() => setRevealedFacts({...revealedFacts, f2: true})}
+                                />
+                                <FactCard
+                                    icon="🏗️"
+                                    title="Took 11 Years to Fix Qasr Al Hosn"
+                                    fact="Restoring the fort took 11 years of careful work. Experts had to preserve all the original materials and building techniques from the 1700s."
+                                    revealed={revealedFacts.f3}
+                                    onReveal={() => setRevealedFacts({...revealedFacts, f3: true})}
+                                />
+                                <FactCard
+                                    icon="🎨"
+                                    title="They Have a Festival at Qasr Al Hosn"
+                                    fact="Every year there's a huge Qasr Al Hosn Festival with traditional music, crafts, food, and cultural events. Thousands of people show up."
+                                    revealed={revealedFacts.f4}
+                                    onReveal={() => setRevealedFacts({...revealedFacts, f4: true})}
+                                />
+                                <FactCard
+                                    icon="📏"
+                                    title="Started Really Small at Qasr Al Hosn"
+                                    fact="When they built it in 1761 it was just one single tower. Over the years they kept adding onto it until it became the full fort you see today."
+                                    revealed={revealedFacts.f5}
+                                    onReveal={() => setRevealedFacts({...revealedFacts, f5: true})}
+                                />
+                                <FactCard
+                                    icon="🌆"
+                                    title="The Citys Birth Certificate at Qasr Al Hosn"
+                                    fact="Historians call it the birth certificate of Abu Dhabi because it marks where the whole city started. Everything in Abu Dhabi grew from this one place."
+                                    revealed={revealedFacts.f6}
+                                    onReveal={() => setRevealedFacts({...revealedFacts, f6: true})}
+                                />
+                            </div>
+
+                            <div className="text-center">
+                                <button
+                                    onClick={() => setShowQuiz(true)}
+                                    className="bg-gradient-to-r from-amber-700 to-amber-600 text-white px-12 py-5 text-2xl font-bold hover:from-amber-800 hover:to-amber-700 transition-all"
+                                >
+                                    🎯 Take the Quiz
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Our Thoughts */}
+                    <section id="blog" className="section-padding bg-gray-50 scroll-fade">
+                        <div className="max-w-4xl mx-auto px-6">
+                            <h2 className="text-5xl font-black text-gray-900 mb-4">What We Learned</h2>
+                            <p className="text-xl text-gray-600 mb-4">Making this project taught us a lot about Qasr Al Hosn</p>
+                            <p className="text-lg text-gray-500 mb-16">What surprised us and why Qasr Al Hosn matters</p>
+
+                            <div className="bg-amber-50 p-10 border-l-4 border-amber-600 mb-12">
+                                <p className="text-xl text-gray-800 leading-relaxed italic mb-4">
+                                    Honestly we knew Qasr Al Hosn was old but didn't realize this was literally where Abu Dhabi began at Qasr Al Hosn. The entire city grew outward from Qasr Al Hosn.
+                                </p>
+                                <p className="text-amber-900 font-bold">Fayez, Majd, Ayham and Ram</p>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 gap-8 mb-12">
+                                <div className="bg-white p-8">
+                                    <h3 className="text-2xl font-bold mb-4 text-gray-900">What Surprised Us</h3>
+                                    <p className="text-gray-700">
+                                        The water well thing at Qasr Al Hosn. We have water everywhere now so building a fort for one well at Qasr Al Hosn seems crazy.. Back then no water meant you died so it makes sense at Qasr Al Hosn.
+                                    </p>
+                                </div>
+                                <div className="bg-white p-8">
+                                    <h3 className="text-2xl font-bold mb-4 text-gray-900">Why Qasr Al Hosn Matters</h3>
+                                    <p className="text-gray-700">
+                                        UAEs got skyscrapers and insane tech now.. Qasr Al Hosn reminds everyone where it started at Qasr Al Hosn. People built this country from nothing in the middle of the desert at Qasr Al Hosn.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="bg-white p-10">
+                                <h3 className="text-2xl font-bold mb-4 text-gray-900">History Can Be Interesting</h3>
+                                <p className="text-lg text-gray-700 leading-relaxed">
+                                    Turns out history isn't boring if you make it interactive at Qasr Al Hosn. Quizzes and clickable stuff help a lot at Qasr Al Hosn. Hope you learned something about Qasr Al Hosn.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Resources */}
+                    <section id="resources" className="section-padding bg-white scroll-fade">
+                        <div className="max-w-5xl mx-auto px-6">
+                            <h2 className="text-5xl font-black text-gray-900 mb-4">Want Info?</h2>
+                            <p className="text-xl text-gray-600 mb-4">Links and sources about Qasr Al Hosn</p>
+                            <p className="text-lg text-gray-500 mb-16">Official sites and where to learn more about Qasr Al Hosn</p>
+
+                            <div className="grid md:grid-cols-2 gap-12">
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-6 text-gray-900">🔗 Official Sites</h3>
+                                    <div className="space-y-4">
+                                        <a href="https://qasralhosn.ae" target="_blank" className="block bg-amber-50 hover:bg-amber-100 p-6 transition-all">
+                                            <p className="font-bold text-amber-900 text-lg">Qasr Al Hosn Official Site</p>
+                                            <p className="text-gray-600">qasralhosn.ae</p>
+                                        </a>
+                                        <a href="https://dct.gov.ae" target="_blank" className="block bg-amber-50 hover:bg-amber-100 p-6 transition-all">
+                                            <p className="font-bold text-amber-900 text-lg">Department of Culture and Tourism</p>
+                                            <p className="text-gray-600">dct.gov.ae</p>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-6 text-gray-900">📚 More Stuff</h3>
+                                    <ul className="space-y-3 text-lg text-gray-700">
+                                        <li>• Books about UAE history at Qasr Al Hosn</li>
+                                        <li>• Documentaries on Abu Dhabis founding at Qasr Al Hosn</li>
+                                        <li>• Articles about architecture at Qasr Al Hosn</li>
+                                        <li>• Info on the pearl industry at Qasr Al Hosn</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className="mt-12 bg-gradient-to-r from-amber-50 to-orange-50 p-8">
+                                <h3 className="text-xl font-bold mb-3 text-gray-900">📖 Our Sources</h3>
+                                <p className="text-gray-700">
+                                    Got info from official government sites, educational resources on UAE heritage and historical records about Qasr Al Hosn. Checked everything against sources to make sure it's accurate about Qasr Al Hosn.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="bg-gradient-to-r from-amber-900 to-amber-800 text-white py-12">
+                        <div className="max-w-6xl mx-auto px-6 text-center">
+                            <p className="text-2xl font-bold mb-2">Multimedia Project, on Cultural Heritage</p>
+                            <p className="text-amber-200 text-lg">Fayez Akkad, Majd Yousif, Ayham Albasha, Ram Khaddam</p>
+                            <p className="text-amber-200 mt-2">Grade 9B. 2026</p>
+                            <p className="text-amber-100 mt-6">Where Abu Dhabi began at Qasr Al Hosn</p>
+                        </div>
+                    </footer>
+
+                    {/* Quiz Modal */}
+                    {showQuiz && <QuizModal onClose={() => setShowQuiz(false)} />}
+                </div>
+            );
+        }
+
+        // Timeline Item
+        function TimelineItem({ year, title, text }) {
+            return (
+                <div className="flex gap-6">
+                    <div className="flex flex-col items-center">
+                        <div className="timeline-dot shrink-0"></div>
+                        <div className="timeline-line w-1 flex-1 mt-2"></div>
+                    </div>
+                    <div className="pb-8 flex-1">
+                        <p className="text-amber-800 font-bold text-lg mb-1">{year}</p>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-3">{title}</h3>
+                        <p className="text-gray-700 text-lg leading-relaxed">{text}</p>
+                    </div>
+                </div>
+            );
+        }
+
+        // Fact Card
+        function FactCard({ icon, title, fact, revealed, onReveal }) {
+            return (
+                <div
+                    onClick={onReveal}
+                    className={`p-8 cursor-pointer transition-all hover-lift ${
+                        revealed ? 'bg-gradient-to-br from-amber-100 to-orange-100' : 'bg-gray-100 hover:bg-gray-200'
+                    }`}
+                >
+                    <div className="text-5xl mb-4">{icon}</div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">{title}</h3>
+                    {revealed ? (
+                        <p className="text-gray-700 leading-relaxed">{fact}</p>
+                    ) : (
+                        <p className="text-gray-500 italic">Click to see it at Qasr Al Hosn</p>
+                    )}
+                </div>
+            );
+        }
+
+        // Quiz Modal
+        function QuizModal({ onClose }) {
+            const [currentQ, setCurrentQ] = useState(0);
+            const [score, setScore] = useState(0);
+            const [done, setDone] = useState(false);
+            const [selected, setSelected] = useState(null);
+
+            const questions = [
+                {
+                    q: "When was the watchtower first built?",
+                    options: ["1761", "1800", "1850", "1900"],
+                    correct: 0
+                },
+                {
+                    q: "What was the fort protecting?",
+                    options: ["Gold treasure", "A freshwater well", "Royal jewels", "Trading goods"],
+                    correct: 1
+                },
+                {
+                    q: "Which family lived there?",
+                    options: ["Bani Yas tribe", "Al Nahyan family", "Pearl traders", "Local fishermen"],
+                    correct: 1
+                },
+                {
+                    q: "How'd they cool it without electricity?",
+                    options: ["Ice rooms", "Wind towers", "Underground tunnels", "Water fountains"],
+                    correct: 1
+                },
+                {
+                    q: "When did it reopen as a museum?",
+                    options: ["2010", "2015", "2018", "2020"],
+                    correct: 2
+                }
+            ];
+
+            const handleAnswer = (idx) => {
+                setSelected(idx);
+                if (idx === questions[currentQ].correct) setScore(score + 1);
+
+                setTimeout(() => {
+                    if (currentQ < questions.length - 1) {
+                        setCurrentQ(currentQ + 1);
+                        setSelected(null);
+                    } else {
+                        setDone(true);
+                    }
+                }, 1000);
+            };
+
+            return (
+                <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="bg-gradient-to-r from-amber-700 to-amber-600 p-8 text-white flex justify-between items-center">
+                            <h2 className="text-3xl font-bold">Quiz Time</h2>
+                            <button onClick={onClose} className="text-4xl hover:opacity-75">&times;</button>
+                        </div>
+
+                        <div className="p-10">
+                            {!done ? (
+                                <>
+                                    <div className="mb-8">
+                                        <div className="flex justify-between text-gray-600 mb-3">
+                                            <span className="font-semibold">Question {currentQ + 1} of {questions.length}</span>
+                                            <span className="font-semibold">Score: {score}</span>
+                                        </div>
+                                        <div className="w-full bg-gray-200 h-3">
+                                            <div className="bg-amber-600 h-3 transition-all" style={{width: `${((currentQ + 1) / questions.length) * 100}%`}}></div>
+                                        </div>
+                                    </div>
+
+                                    <h3 className="text-2xl font-bold text-gray-900 mb-8">{questions[currentQ].q}</h3>
+
+                                    <div className="space-y-4">
+                                        {questions[currentQ].options.map((opt, idx) => (
+                                            <button
+                                                key={idx}
+                                                onClick={() => handleAnswer(idx)}
+                                                disabled={selected !== null}
+                                                className={`w-full p-5 text-left text-lg font-semibold transition-all ${
+                                                    selected === null
+                                                        ? 'bg-gray-100 hover:bg-amber-100'
+                                                        : selected === idx
+                                                            ? idx === questions[currentQ].correct
+                                                                ? 'bg-green-100 border-2 border-green-600'
+                                                                : 'bg-red-100 border-2 border-red-600'
+                                                            : idx === questions[currentQ].correct
+                                                                ? 'bg-green-100 border-2 border-green-600'
+                                                                : 'bg-gray-100'
+                                                }`}
+                                            >
+                                                {opt}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="text-center py-12">
+                                    <div className="text-8xl mb-6">{score === 5 ? '🏆' : score >= 3 ? '⭐' : '📚'}</div>
+                                    <h3 className="text-4xl font-bold text-gray-900 mb-6">All Done!</h3>
+                                    <p className="text-3xl text-gray-700 mb-8">You got {score} out of 5 right</p>
+                                    <p className="text-xl text-gray-600 mb-12">
+                                        {score === 5 ? "Perfect! You know your stuff about the fort!" :
+                                         score >= 3 ? "Nice! Got most of them right!" :
+                                         "Not bad! Check out the site again and retry!"}
+                                    </p>
+                                    <button
+                                        onClick={onClose}
+                                        className="bg-gradient-to-r from-amber-700 to-amber-600 text-white px-10 py-4 text-lg font-bold hover:from-amber-800 hover:to-amber-700"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<QasrAlHosnWebsite />, document.getElementById('root'));
+    </script>
+</body>
+</html>
